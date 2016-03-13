@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+    <head>
+        <title>My experiment</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="jspsych-5.0.3/jspsych.js"></script>
+        <script src="jspsych-5.0.3/plugins/jspsych-text.js"></script>
+        <script src="jspsych-5.0.3/plugins/jspsych-single-stim.js"></script>
+        <script src="jspsych-5.0.3/plugins/jspsych-single-audio.js"></script>
+        <link href="jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body>
+    </body>
+    <script>
+
+/* define welcome message block */
+var welcome_block = {
+  type: "text",
+  text: " Welcome to the experiment. Press any key to begin.",
+  timing_post_trial: 0000
+};
+
+/* define instructions block */
+var instructions_block = {
+  type: "text",
+  text: "<p>This experiment consist in a set of standardized tests in order to assess EEG signal quality and benchmark different devices. </p>" +
+        "<p>EEG data collection must be done separatly by the most appropriate software. Open data format (csv, edf) are prefered.</p>" +
+        "<p>There will be 3 different tests :<p>" +
+        "<li>Blinks (20 seconds)</li>" +
+        "<li>Eye open (30 seconds)</li>" +
+        "<li>Eye closed (30 seconds)</li>" +
+        "<p>Sit down, relax, and follow the instructions ... Press any key to begin.</p>",
+  timing_post_trial: 0000
+};
+
+var instructions_block_setup = {
+  type: "text",
+  text: "<p><strong>EEG Setup</strong></p>" +
+        "<p> You will need two EEG electrodes, positioned on Fp1 and Fp2 according to the 10-20 system. (place image). If possible, place the ground electrode on the right mastoid (the round bone behind your ear), and the reference on the left mastoid. </p>" +
+        "<p> The prefered sampling frequency is 512 Hz, if not possible with your device, pick the closest frequency.</p> " +
+        "<p> Press any key when you are ready </p>",
+  timing_post_trial: 0000
+};
+
+var instructions_blinks = {
+  type: "text",
+  text: "<p>For this test, you are asked to look at the screen, and blink every time the word <strong>Blink</strong> appear on the screen.</p>" +
+        "Start a new EEG recording, and press a key to proceed. ",
+  timing_post_trial: 2000
+};
+
+var stim_blinks = {
+  type: "single-stim",
+  timeline:[
+      {prompt: "<br><br><center><font size='48'>Blink</font></center>"},
+      {prompt: "<br><br><center><font size='48'>Blink</font></center>"},
+      {prompt: "<br><br><center><font size='48'>Blink</font></center>"},
+      {prompt: "<br><br><center><font size='48'>Blink</font></center>"},
+      {prompt: "<br><br><center><font size='48'>Blink</font></center>"}
+  ],
+  timing_response: 750,
+  timing_stim: 250,
+};
+
+var instructions_blinks = {
+  type: "text",
+  text: "<p>For this test, you are asked to look at the screen, and blink every time the word <strong>Blink</strong> appear on the screen.</p>" +
+        "Start a new EEG recording, and press a key to proceed. ",
+  timing_post_trial: 2000
+};
+
+var instructions_stop = {
+  type: "text",
+  text: "<p>Stop recording, and save the file.</p>" +
+        "Press a key to continue ...",
+  timing_post_trial: 000
+};
+
+var instructions_open = {
+  type: "text",
+  text: "<p>For this test, you are asked to look at the screen, eye open for 30 seconds.</p>" +
+        "Start a new EEG recording, and press a key to proceed. ",
+  timing_post_trial: 0000
+};
+
+var stim_wait_open = {
+  type: "single-stim",
+  prompt: "Stay still, eye open, for 30s ...",
+  timing_response: 30000,
+  timing_stim: -1,
+};
+
+var instructions_close = {
+  type: "text",
+  text: "<p>For this test, you are asked to close your eyes and relax for 30 seconds. A beep will indacte the end of the 30s. please turn on the volume. (FIXME beep not working)</p>" +
+        "Start a new EEG recording, and press a key to proceed. ",
+  timing_post_trial: 0000
+};
+
+var stim_wait_close= {
+  type: "single-stim",
+  prompt: "Stay still, eye closed, for 30s ...",
+  timing_response: 30000,
+  timing_stim: -1,
+};
+
+var beep = {
+    type: 'single-audio',
+    prompt: 'You can open your eyes.',
+    stimulus: 'sound/Tone.mp3',
+    timing_response: 2000,
+    timing_stim: 1000
+};
+
+var end_block = {
+  type: "text",
+  text: " That's it :) to submit yhe file, create a pull request at ... and follow the instructions.",
+  timing_post_trial: 0000
+};
+
+/* create experiment timeline array */
+var timeline = [];
+timeline.push(welcome_block);
+timeline.push(instructions_block);
+timeline.push(instructions_block_setup);
+timeline.push(instructions_blinks);
+timeline.push(stim_blinks, stim_blinks);
+timeline.push(instructions_stop);
+timeline.push(instructions_open);
+timeline.push(stim_wait_open);
+timeline.push(instructions_stop);
+timeline.push(instructions_close);
+timeline.push(stim_wait_close);
+//timeline.push(beep);
+timeline.push(instructions_stop);
+timeline.push(end_block);
+
+/* start the experiment */
+jsPsych.init({
+  timeline: timeline,
+  show_progress_bar: true
+});
+</script>
+</html>
